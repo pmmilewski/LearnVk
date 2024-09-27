@@ -56,6 +56,7 @@ private:
 	std::vector<VkFence> inFlightFences;
 	std::vector<VkFence> imagesInFlight;
 	size_t currentFrame{0};
+	bool framebufferResized = false;
 
 	const std::vector<const char*> validationLayers =
 	{
@@ -83,6 +84,7 @@ private:
 	void mainLoop();
 
 	void initWindow();
+	static void framebufferResizeCallback(GLFWwindow* window, int width, int height);
 	void initVulkan();
 	void createInstance();
 	void setupDebugMessenger();
@@ -122,11 +124,15 @@ private:
 
 	void createCommandPool();
 	void createCommandBuffers();
+	void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
 
 	void createSyncObjects();
 
 	void drawFrame();
 
 	void cleanup();
+
+	void recreateSwapChain();
+	void cleanupSwapChain() const;
 };
 
